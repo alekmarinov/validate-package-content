@@ -1,0 +1,131 @@
+{
+	"audio_book": {
+		"naming_pattern": "(db\\d+)\\.pkg\\.zip",
+		"naming_pattern_java": "(?<assetid>(?<booknumberpreffix>db)(?<booknumber>\\d+))\\.pkg\\.zip",
+		".dtb.zip_pattern": "\\.dtb\\.zip",
+		".pdtb.zip_pattern": "\\.pdtb\\.zip",
+		"optional": [
+			{".wav":".als"}
+		],
+		"mandatory": [
+			".dtb.zip",
+			".pdtb.zip"
+		]
+	},
+	"audio_magazine": {
+		"naming_pattern": "(.*?_\\d{4}-\\d{2}).*?\\.pkg\\.zip",
+		"naming_pattern_java" : "(?<assetid>.*?_\\d{4}-\\d{2}-\\d{2}.*?)\\.pkg\\.zip",
+		".dtb.zip_pattern": ".*?\\.dtb\\.zip",
+		".pdtb.zip_pattern": ".*?\\.pdtb\\.zip",
+		"optional": [],
+		"mandatory": [
+			".dtb.zip",
+			".pdtb.zip"
+		]
+	},
+	"audio_music": {
+		"naming_pattern": "(d[br]m\\d+)\\.pkg\\.zip",
+		"naming_pattern_java" : "(?<assetid>dbm(?<booknumber>\\d+))\\.pkg\\.zip",
+		".dtb.zip_pattern": "\\.dtb\\.zip",
+		".pdtb.zip_pattern": "\\.pdtb\\.zip",
+		"optional": [
+			{
+				".wav": ".als"
+			}
+		],
+		"mandatory": [
+			".dtb.zip",
+			".pdtb.zip"
+		]
+	},
+	"audio_foreign": {
+		"naming_pattern": "(db[ef]\\d+)\\.pkg\\.zip",
+		"naming_pattern_java": "(?<assetid>(dbf|dbe)(?<booknumber>\\d+))\\.pkg\\.zip",
+		".dtb.zip_pattern": "\\.dtb\\.zip",
+		".pdtb.zip_pattern": "\\.pdtb\\.zip",
+		"optional": [
+			{
+				".wav": ".als"
+			}
+		],
+		"mandatory": [
+			".pdtb.zip",
+			".dtb.zip"
+		]
+	},
+	"braille_book": {
+		"naming_pattern": "br\\.(\\d+)\\.pkg\\.zip",
+		"naming_pattern_java": "(?<booknumberpreffix>br)\\.(?<assetid>(?<booknumber>\\d+))\\.pkg\\.zip",
+		".brf_pattern": "v\\d+\\.brf",
+		".bopf_pattern": "\\.bopf",
+		"optional": [],
+		"mandatory": [
+			".brf",
+			".bopf"
+		]
+	},
+	"braille_magazine": {
+		"naming_pattern": "br\\.(\\w+)_\\d{4}-\\d{2}(-\\d{2})?\\.zip",
+		"naming_pattern_java": "br\\.(?<assetid>\\w+)_\\d{4}-\\d{2}(-\\d{2})?\\.zip",
+		".brf_pattern": "\\w+\\d{2}(\\w{1})?\\.brf",
+		".bopf_pattern": "\\w+\\d{2}\\.bopf",
+		"optional": [],
+		"mandatory": [
+			".brf",
+			".bopf"
+		]
+	},
+	"braille_music": {
+		"naming_pattern": "(brm\\d+)\\.pkg\\.zip",
+		"naming_pattern_java": "(?<assetid>brm(?<booknumber>\\d+))\\.pkg\\.zip",
+		".brf_pattern": "m\\d+\\.brf",
+		".bopf_pattern": "\\.bopf",
+		"optional": [],
+		"mandatory": [
+			".brf",
+			".bopf"
+		]
+	},
+	"marrakesh": {
+		"naming_pattern": "(\\w+\\d+)\\.pkg\\.zip",
+		"naming_pattern_java": "(?<assetid>\\w+\\d+)\\.pkg\\.zip",
+		".dtb.zip_pattern": "\\.dtb\\.zip",
+		".pdtb.zip_pattern": "\\.pdtb\\.zip",
+		"optional": [
+			{
+				".zip": ".zip"
+			}
+
+		],
+		"mandatory": [
+			".dtb.zip",
+			".pdtb.zip"
+		]
+	},
+	"network_audio_book": {
+		"naming_pattern": "(\\w+\\d+)\\.pkg\\.zip",
+		"naming_pattern_java": "(?<assetid>dbc(?<booknumber>\\d+))\\.pkg\\.zip",
+		".dtb.zip_pattern": "\\.dtb\\.zip",
+		".pdtb.zip_pattern": "\\.pdtb\\.zip",
+		"optional": [],
+		"mandatory": [
+			".dtb.zip",
+			".pdtb.zip"
+		]
+	},
+		"non_nls_braille": {
+		"naming_pattern": "(brc\\w+)\\.pkg\\.zip",
+		"naming_pattern_java": "(?<assetid>brc\\w+)\\.pkg\\.zip",
+		".brf_pattern": "c\\d+.brf",
+		".bopf_pattern": "\\.bopf",
+		"optional": [],
+		"mandatory": [
+			".brf",
+			".bopf"
+		]
+	},
+	"ignored_files": [
+		"manifest.json",
+		"md5"
+	]
+}
