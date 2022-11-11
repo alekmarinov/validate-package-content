@@ -1,4 +1,4 @@
 .PHONY: test
 
 test:
-	pytest
+	pytest --log-cli-level=DEBUG

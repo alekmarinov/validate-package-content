@@ -1,6 +1,7 @@
 import os
 import re
 import json
+import logging
 from zipfile import ZipFile
 
 
@@ -20,55 +21,61 @@ class ValidatePackageContent:
         with open(config_file, "r", encoding="utf-8") as fd:
             self.validation_rules = json.load(fd)
 
-    def validate_zip(self, asset_type, zipfilename):
-        basezipfilename = os.path.basename(zipfilename)
-
-        def raise_error(msg):
-            raise ValidateError(
-                f"Zip file name `{basezipfilename}` for asset type `{asset_type}` {msg}"
-            )
-
+    def validate_package(self, asset_type, pkg_filename):
+        logging.debug(f'Applying `{asset_type}` rules on `{pkg_filename}`')
+        base_pkg_filename = os.path.basename(pkg_filename)
         asset_type = asset_type.lower()
+        errors = []
+
+        def collect_error(msg):
+            logging.error(msg)
+            errors.append(msg)
+
         if asset_type not in self.validation_rules.keys():
             raise ValidateError(f"Unknown asset type `{asset_type}`")
-        rules = self.validation_rules[asset_type]
-        ignored_files = self.validation_rules["ignored_files"]
-        mandatory_extensions = set(rules["mandatory"])
-        # FIXME: Clarify the meaning of optional list of extension to extension mappings
-        # Assuming any key or value in a dict is an optional extension
-        optional_extensions = set()
-        for d in rules["optional"]:
-            for k, v in d.items():
-                optional_extensions = optional_extensions.union((k, v))
-        # Validate zip file name
-        naming_pattern = rules["naming_pattern"]
-        matched = re.match(naming_pattern, basezipfilename)
-        if not matched:
-            raise_error(f"does not match pattern `{naming_pattern}`")
-        # Iterate over the list of file names in the zip and apply file names validation
-        name = matched[1]
-        with ZipFile(zipfilename, "r") as zipf:
-            # Collect file extensions
-            found_extensions = set()
-            for filename in zipf.namelist():
-                if filename.endswith(tuple(ignored_files)):
-                    continue
-                ext = os.path.splitext(filename)[1]
-                found_extensions.add(ext)
-                filename_pattern = rules.get(f"{ext}_pattern")
-                if filename_pattern is not None:
-                    if re.match(filename_pattern, filename) is None:
-                        raise_error(
-                            f"has a file `{filename}` not matching pattern `{filename_pattern}`"
-                        )
-            common_extensions = found_extensions.intersection(mandatory_extensions)
-            if common_extensions != mandatory_extensions:
-                missing_extensions = mandatory_extensions - common_extensions
-                raise_error(f"has missing files with extensions `{missing_extensions}`")
-            unexpected_extensions = (
-                found_extensions - mandatory_extensions - optional_extensions
-            )
-            if unexpected_extensions:
-                raise_error(
-                    f"has files with unexpected extensions `{unexpected_extensions}`"
-                )
+        asset_rules = self.validation_rules[asset_type]
+        # Check if package name matching the pattern
+        package_pattern = asset_rules["package"]
+        if not re.match(package_pattern, base_pkg_filename):
+            collect_error(f"does not match pattern `{package_pattern}`")
+
+        # Walk through the package files and apply each rule until match
+        file_rules = asset_rules["files"] + self.validation_rules["*"]["files"]
+
+        # Array of non optional rules expecting to be supplied by the packaged files
+        required_rules = [ rule for rule in file_rules if not rule["optional"] ]
+
+        # Maps non optional rule having a count constraint to the number of remaining files to match the rule
+        counted_rules = { rule["pattern"]: rule["count"] for rule in required_rules if 'count' in rule }
+        with ZipFile(pkg_filename, "r") as zipf:
+            for file in zipf.namelist():
+                is_matched = False
+                for rule in file_rules:
+                    pattern = rule["pattern"]
+                    if re.match(pattern, file):
+                        is_matched = True
+                        logging.debug(f'`{file}` is matched by `{pattern}`')
+                        if not rule["optional"]:
+                            if 'count' in rule:
+                                if counted_rules[pattern] == 0:
+                                    collect_error(f'too many files matching {rule}')
+                                else:
+                                    counted_rules[pattern] -= 1
+                            else:
+                                # Marking non count aware rule as supplied by removing it
+                                if rule in required_rules:
+                                    required_rules.remove(rule)
+                        break
+                if not is_matched:
+                    collect_error(f'`{file}` not matching any rules')
+
+        # Check if there are remaining not supplied rules
+        for rule in required_rules:
+            if rule["pattern"] in counted_rules:
+                if counted_rules[rule["pattern"]] > 0:
+                    collect_error(f'not enough files matching {rule}')
+            else:
+                collect_error(f"no file matched by {rule}")
+
+        logging.debug(f'`{pkg_filename}` is{" not" if errors else ""} matching `{asset_type}` rules')
+        return len(errors) == 0, errors

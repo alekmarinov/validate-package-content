@@ -1,131 +1,173 @@
 {
+	"*": {
+		"files": [
+			{
+				"pattern": "manifest.json",
+				"optional": true
+			},
+			{
+				"pattern": ".*\\.md5",
+				"optional": true
+			}
+		]
+	},
 	"audio_book": {
-		"naming_pattern": "(db\\d+)\\.pkg\\.zip",
-		"naming_pattern_java": "(?<assetid>(?<booknumberpreffix>db)(?<booknumber>\\d+))\\.pkg\\.zip",
-		".dtb.zip_pattern": "\\.dtb\\.zip",
-		".pdtb.zip_pattern": "\\.pdtb\\.zip",
-		"optional": [
-			{".wav":".als"}
-		],
-		"mandatory": [
-			".dtb.zip",
-			".pdtb.zip"
+		"package": "(db\\d+)\\.pkg\\.zip",
+		"files": [
+			{
+				"pattern": ".*\\.dtb\\.zip",
+				"optional": false
+			},
+			{
+				"pattern": ".*\\.pdtb\\.zip",
+				"optional": false
+			},
+			{
+				"pattern": ".*\\.wav",
+				"optional": true
+			},
+			{
+				"pattern": ".*\\.als",
+				"optional": true
+			}
 		]
 	},
 	"audio_magazine": {
-		"naming_pattern": "(.*?_\\d{4}-\\d{2}).*?\\.pkg\\.zip",
-		"naming_pattern_java" : "(?<assetid>.*?_\\d{4}-\\d{2}-\\d{2}.*?)\\.pkg\\.zip",
-		".dtb.zip_pattern": ".*?\\.dtb\\.zip",
-		".pdtb.zip_pattern": ".*?\\.pdtb\\.zip",
-		"optional": [],
-		"mandatory": [
-			".dtb.zip",
-			".pdtb.zip"
+		"package": "(.*?_\\d{4}-\\d{2}).*?\\.pkg\\.zip",
+		"files": [
+			{
+				"pattern": ".*?\\.dtb\\.zip",
+				"optional": false
+			},
+			{
+				"pattern": ".*?\\.pdtb\\.zip",
+				"optional": false
+			}
 		]
 	},
 	"audio_music": {
-		"naming_pattern": "(d[br]m\\d+)\\.pkg\\.zip",
-		"naming_pattern_java" : "(?<assetid>dbm(?<booknumber>\\d+))\\.pkg\\.zip",
-		".dtb.zip_pattern": "\\.dtb\\.zip",
-		".pdtb.zip_pattern": "\\.pdtb\\.zip",
-		"optional": [
+		"package": "(d[br]m\\d+)\\.pkg\\.zip",
+		"files": [
 			{
-				".wav": ".als"
+				"pattern": ".*\\.dtb\\.zip",
+				"optional": false
+			},
+			{
+				"pattern": ".*\\.pdtb\\.zip",
+				"optional": false
+			},
+			{
+				"pattern": ".*\\.wav",
+				"optional": true
+			},
+			{
+				"pattern": ".*\\.als",
+				"optional": true
 			}
-		],
-		"mandatory": [
-			".dtb.zip",
-			".pdtb.zip"
 		]
 	},
 	"audio_foreign": {
-		"naming_pattern": "(db[ef]\\d+)\\.pkg\\.zip",
-		"naming_pattern_java": "(?<assetid>(dbf|dbe)(?<booknumber>\\d+))\\.pkg\\.zip",
-		".dtb.zip_pattern": "\\.dtb\\.zip",
-		".pdtb.zip_pattern": "\\.pdtb\\.zip",
-		"optional": [
+		"package": "(db[ef]\\d+)\\.pkg\\.zip",
+		"files": [
 			{
-				".wav": ".als"
+				"pattern": ".*\\.dtb\\.zip",
+				"optional": false
+			},
+			{
+				"pattern": ".*\\.pdtb\\.zip",
+				"optional": false
+			},
+			{
+				"pattern": ".*\\.wav",
+				"optional": true
+			},
+			{
+				"pattern": ".*\\.als",
+				"optional": true
 			}
-		],
-		"mandatory": [
-			".pdtb.zip",
-			".dtb.zip"
 		]
 	},
 	"braille_book": {
-		"naming_pattern": "br\\.(\\d+)\\.pkg\\.zip",
-		"naming_pattern_java": "(?<booknumberpreffix>br)\\.(?<assetid>(?<booknumber>\\d+))\\.pkg\\.zip",
-		".brf_pattern": "v\\d+\\.brf",
-		".bopf_pattern": "\\.bopf",
-		"optional": [],
-		"mandatory": [
-			".brf",
-			".bopf"
+		"package": "br\\.(\\d+)\\.pkg\\.zip",
+		"files": [
+			{
+				"pattern": "v\\d+\\.brf",
+				"optional": false
+			},
+			{
+				"pattern": ".*\\.bopf",
+				"optional": false
+			}
 		]
 	},
 	"braille_magazine": {
-		"naming_pattern": "br\\.(\\w+)_\\d{4}-\\d{2}(-\\d{2})?\\.zip",
-		"naming_pattern_java": "br\\.(?<assetid>\\w+)_\\d{4}-\\d{2}(-\\d{2})?\\.zip",
-		".brf_pattern": "\\w+\\d{2}(\\w{1})?\\.brf",
-		".bopf_pattern": "\\w+\\d{2}\\.bopf",
-		"optional": [],
-		"mandatory": [
-			".brf",
-			".bopf"
+		"package": "br\\.(\\w+)_\\d{4}-\\d{2}(-\\d{2})?\\.zip",
+		"files": [
+			{
+				"pattern": "\\w+\\d{2}(\\w{1})?\\.brf",
+				"optional": false
+			},
+			{
+				"pattern": "\\w+\\d{2}\\.bopf",
+				"optional": false,
+				"count": 1
+			}
 		]
 	},
 	"braille_music": {
-		"naming_pattern": "(brm\\d+)\\.pkg\\.zip",
-		"naming_pattern_java": "(?<assetid>brm(?<booknumber>\\d+))\\.pkg\\.zip",
-		".brf_pattern": "m\\d+\\.brf",
-		".bopf_pattern": "\\.bopf",
-		"optional": [],
-		"mandatory": [
-			".brf",
-			".bopf"
+		"package": "(brm\\d+)\\.pkg\\.zip",
+		"files": [
+			{
+				"pattern": "m\\d+\\.brf",
+				"optional": false
+			},
+			{
+				"pattern": ".*\\.bopf",
+				"optional": false
+			}
 		]
 	},
 	"marrakesh": {
-		"naming_pattern": "(\\w+\\d+)\\.pkg\\.zip",
-		"naming_pattern_java": "(?<assetid>\\w+\\d+)\\.pkg\\.zip",
-		".dtb.zip_pattern": "\\.dtb\\.zip",
-		".pdtb.zip_pattern": "\\.pdtb\\.zip",
-		"optional": [
+		"package": "(\\w+\\d+)\\.pkg\\.zip",
+		"files": [
 			{
-				".zip": ".zip"
+				"pattern": ".*\\.dtb\\.zip",
+				"optional": false
+			},
+			{
+				"pattern": ".*\\.pdtb\\.zip",
+				"optional": false
+			},
+			{
+				"pattern": "\\.zip",
+				"optional": true
 			}
-
-		],
-		"mandatory": [
-			".dtb.zip",
-			".pdtb.zip"
 		]
 	},
 	"network_audio_book": {
-		"naming_pattern": "(\\w+\\d+)\\.pkg\\.zip",
-		"naming_pattern_java": "(?<assetid>dbc(?<booknumber>\\d+))\\.pkg\\.zip",
-		".dtb.zip_pattern": "\\.dtb\\.zip",
-		".pdtb.zip_pattern": "\\.pdtb\\.zip",
-		"optional": [],
-		"mandatory": [
-			".dtb.zip",
-			".pdtb.zip"
+		"package": "(\\w+\\d+)\\.pkg\\.zip",
+		"files": [
+			{
+				"pattern": ".*\\.dtb\\.zip",
+				"optional": false
+			},
+			{
+				"pattern": ".*\\.pdtb\\.zip",
+				"optional": false
+			}
 		]
 	},
 		"non_nls_braille": {
-		"naming_pattern": "(brc\\w+)\\.pkg\\.zip",
-		"naming_pattern_java": "(?<assetid>brc\\w+)\\.pkg\\.zip",
-		".brf_pattern": "c\\d+.brf",
-		".bopf_pattern": "\\.bopf",
-		"optional": [],
-		"mandatory": [
-			".brf",
-			".bopf"
-		]
-	},
-	"ignored_files": [
-		"manifest.json",
-		"md5"
-	]
+			"package": "(brc\\w+)\\.pkg\\.zip",
+			"files": [
+				{
+					"pattern": "c\\d+.brf",
+					"optional": false
+				},
+				{
+					"pattern": ".*\\.bopf",
+					"optional": false
+				}
+			]
+	}
 }

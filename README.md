@@ -20,5 +20,35 @@ Example:
 from validate_package_content import ValidatePackageContent
 
 vpc = ValidatePackageContent()
-vpc.validate_zip(asset_type, zip_filename)
+vpc.validate_package(asset_type, zip_filename)
 ```
+
+## Validation rules json format (*src/validation_rules.json*)
+
+```json
+{
+    "<asset_type>": {
+        "package": "<package_file_pattern>",
+        "files": [
+            {
+                "pattern": "<file_pattern>",
+                "optional": <boolean>,
+                "count": <number>
+            }
+        ]
+    },
+    "*": {
+        "files": [
+        ]
+    }
+}
+
+```
+| Plugin | README |
+| ------ | ------ |
+| <asset_type> | The name of the asset type, e.g. braille_magazine |
+|<package_file_pattern> | Python regexp matching the name of the package |
+|<file_pattern> | Python regexp matching a file inside the package |
+| optional | False if the pattern is mandatory, else optional |
+| count | The exact number of files should match the pattern |
+| "*": { | Rules applied on all asset types |
